@@ -100,17 +100,7 @@ function displaySearchResults(matches) {
             const sectionId = item.getAttribute('data-section-id');
             const section = document.getElementById(sectionId);
             if (section) {
-                section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                section.setAttribute('tabindex', '-1');
-                section.focus({ preventScroll: true });
-                
-                // Visual feedback
-                section.style.transition = 'background-color 0.5s ease';
-                const originalBg = section.style.backgroundColor;
-                section.style.backgroundColor = 'rgba(37, 99, 235, 0.05)';
-                setTimeout(() => {
-                    section.style.backgroundColor = originalBg;
-                }, 1500);
+                smoothScrollToTarget(section);
             }
             hideSearchResults();
             navSearchInput.value = '';
@@ -253,19 +243,31 @@ function updateActiveNavLink() {
     });
 }
 
+// Smooth Scroll with nav offset
+function smoothScrollToTarget(target) {
+    if (!target) return;
+    const navbar = document.getElementById('navbar');
+    const navHeight = navbar ? navbar.offsetHeight : 0;
+    const buffer = 20; // small breathing room
+    const rect = target.getBoundingClientRect();
+    const targetY = rect.top + window.pageYOffset - navHeight - buffer;
+    window.scrollTo({ top: targetY, behavior: 'smooth' });
+    // focus after scroll completes
+    setTimeout(() => {
+        target.setAttribute('tabindex', '-1');
+        target.focus({ preventScroll: true });
+    }, 450);
+}
+
 // Smooth Scroll for Navigation Links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
+        const href = this.getAttribute('href');
+        if (!href || href === '#') return;
+        const target = document.querySelector(href);
         if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-            // Update focus for accessibility
-            target.setAttribute('tabindex', '-1');
-            target.focus();
+            e.preventDefault();
+            smoothScrollToTarget(target);
         }
     });
     
