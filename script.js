@@ -1,6 +1,11 @@
 // Language Toggle
 let currentLang = 'zh';
 
+function isMobileDevice() {
+    if (typeof navigator === 'undefined') return false;
+    return /Mobi|Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
+}
+
 const langToggle = document.getElementById('langToggle');
 const langElements = document.querySelectorAll('[data-en][data-zh]');
 
@@ -30,13 +35,15 @@ function updateLanguage() {
     document.documentElement.lang = currentLang === 'zh' ? 'zh-CN' : 'en';
 }
 
-langToggle.addEventListener('click', toggleLanguage);
-langToggle.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        toggleLanguage();
-    }
-});
+if (langToggle) {
+    langToggle.addEventListener('click', toggleLanguage);
+    langToggle.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            toggleLanguage();
+        }
+    });
+}
 
 // Navbar search with results dropdown
 const navSearchForm = document.getElementById('navSearchForm');
@@ -152,12 +159,17 @@ document.addEventListener('click', (e) => {
 // Mobile Menu Toggle
 const mobileMenuToggle = document.getElementById('mobileMenuToggle');
 const navMenu = document.getElementById('navMenu');
+const navOverlay = document.getElementById('navOverlay');
 
 if (mobileMenuToggle && navMenu) {
     mobileMenuToggle.addEventListener('click', () => {
         const isExpanded = mobileMenuToggle.getAttribute('aria-expanded') === 'true';
-        mobileMenuToggle.setAttribute('aria-expanded', !isExpanded);
-        navMenu.classList.toggle('active');
+        const nextState = !isExpanded;
+        mobileMenuToggle.setAttribute('aria-expanded', nextState);
+        navMenu.classList.toggle('active', nextState);
+        if (navOverlay) {
+            navOverlay.classList.toggle('active', nextState);
+        }
     });
     
     // Close menu when clicking on a link
@@ -165,6 +177,9 @@ if (mobileMenuToggle && navMenu) {
         link.addEventListener('click', () => {
             navMenu.classList.remove('active');
             mobileMenuToggle.setAttribute('aria-expanded', 'false');
+            if (navOverlay) {
+                navOverlay.classList.remove('active');
+            }
         });
     });
     
@@ -173,8 +188,20 @@ if (mobileMenuToggle && navMenu) {
         if (e.key === 'Escape' && navMenu.classList.contains('active')) {
             navMenu.classList.remove('active');
             mobileMenuToggle.setAttribute('aria-expanded', 'false');
+            if (navOverlay) {
+                navOverlay.classList.remove('active');
+            }
         }
     });
+
+    // Close menu when tapping the dimmed overlay
+    if (navOverlay) {
+        navOverlay.addEventListener('click', () => {
+            navMenu.classList.remove('active');
+            navOverlay.classList.remove('active');
+            mobileMenuToggle.setAttribute('aria-expanded', 'false');
+        });
+    }
 }
 
 // Navbar Scroll Effect
@@ -313,8 +340,9 @@ function initThreeJS() {
             alpha: true
         });
         renderer.setSize(width, height);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // Limit pixel ratio for performance
-        console.log('Renderer initialized with size:', { width, height });
+        const maxDpr = isMobileDevice() ? 1.5 : 2; // lower DPR on mobile to reduce GPU/VRAM pressure
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, maxDpr));
+        console.log('Renderer initialized with size:', { width, height, maxDpr });
     } catch (error) {
         console.error('Failed to initialize WebGL renderer:', error);
         if (modelLoading) {
@@ -371,6 +399,9 @@ function loadModel() {
 }
 
 function loadGLBFile(gltfLoader) {
+    if (gltfLoader?.setCrossOrigin) {
+        gltfLoader.setCrossOrigin('anonymous');
+    }
     // Encode spaces and special chars in URL path
     const glbPath = encodeURI('assets/3d model/model.glb');
     console.log('Resolved GLB path:', glbPath);
@@ -388,14 +419,26 @@ function loadGLBFile(gltfLoader) {
         }
     }
     
-    // Set a timeout for large files (30 seconds for GLB files)
-    const loadTimeout = setTimeout(() => {
-        console.error('Model loading timeout after 30s, using fallback');
+    // Set a timeout for large files (extended on mobile) and refresh it as progress arrives
+    const timeoutMs = isMobileDevice() ? 70000 : 30000;
+    let loadTimeout = setTimeout(() => {
+        console.error(`Model loading timeout after ${timeoutMs / 1000}s, using fallback`);
         createFallbackModel();
         if (modelLoading) {
             modelLoading.style.display = 'none';
         }
-    }, 30000);
+    }, timeoutMs);
+
+    const refreshTimeout = () => {
+        clearTimeout(loadTimeout);
+        loadTimeout = setTimeout(() => {
+            console.error(`Model loading timeout after ${timeoutMs / 1000}s (post-refresh), using fallback`);
+            createFallbackModel();
+            if (modelLoading) {
+                modelLoading.style.display = 'none';
+            }
+        }, timeoutMs);
+    };
     
     // Load GLB model
     gltfLoader.load(
@@ -444,6 +487,7 @@ function loadGLBFile(gltfLoader) {
             },
             (progress) => {
                 // Loading progress
+                refreshTimeout();
                 if (progress.lengthComputable && progress.total > 0) {
                     const percent = (progress.loaded / progress.total * 100).toFixed(0);
                     if (modelLoading) {
