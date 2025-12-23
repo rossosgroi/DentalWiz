@@ -36,18 +36,19 @@ body {
 }
 
 section {
-    scroll-margin-top: 180px;
+    /* Keep anchor stops just below the fixed navbar without overshooting */
+    scroll-margin-top: 120px;
 }
 
 @media (max-width: 968px) {
     section {
-        scroll-margin-top: 210px;
+        scroll-margin-top: 140px;
     }
 }
 
 @media (max-width: 768px) {
     section {
-        scroll-margin-top: 240px;
+        scroll-margin-top: 160px;
     }
 }
 
