@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数据驱动的个性化牙齿种植系统 | Data-Driven Personalized Dental Implant System</title>
+        <link rel="icon" href="assets/icon.png" type="image/png">
+    <link rel="stylesheet" href="styles.css?v=20251223">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+SC:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Scroll Progress Indicator -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+    
+    <!-- Language Toggle -->
+    <div class="language-toggle">
+        <button id="langToggle" class="lang-btn" aria-label="Toggle language" aria-pressed="false">
+            <span class="lang-text" data-en="EN" data-zh="中文">中文</span>
+        </button>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar" role="navigation" aria-label="Main navigation">
+        <div class="nav-container">
+            <a href="#home" class="logo" id="logoHome">
+                <img src="assets/icon.png" alt="Dental Implant System Logo" class="logo-img" loading="eager">
+                <span class="logo-text" data-en="Dental Implant System" data-zh="牙齿种植系统">牙齿种植系统</span>
+            </a>
+            <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle navigation menu" aria-expanded="false">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
+            <ul class="nav-menu" id="navMenu" role="menubar">
+                <li role="none"><a href="#home" class="nav-link" role="menuitem" data-en="Home" data-zh="首页">首页</a></li>
+                <li role="none"><a href="#challenges" class="nav-link" role="menuitem" data-en="Challenges" data-zh="挑战">挑战</a></li>
+                <li role="none"><a href="#solution" class="nav-link" role="menuitem" data-en="Solution" data-zh="解决方案">解决方案</a></li>
+                <li role="none"><a href="#technology" class="nav-link" role="menuitem" data-en="Technology" data-zh="技术">技术</a></li>
+                <li role="none"><a href="#process" class="nav-link" role="menuitem" data-en="Process" data-zh="流程">流程</a></li>
+            </ul>
+            <div class="nav-search" id="navSearch">
+                <form id="navSearchForm" role="search">
+                    <input id="navSearchInput" type="search" aria-label="Search sections" placeholder="Search..." data-en="Search..." data-zh="搜索..." autocomplete="off">
+                    <button type="submit" class="search-btn" aria-label="Search">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </form>
+                <div class="search-results" id="searchResults"></div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-background">
+            <div class="gradient-orb orb-1"></div>
+            <div class="gradient-orb orb-2"></div>
+            <div class="gradient-orb orb-3"></div>
+        </div>
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1 class="hero-title fade-in-up">
+                    <span class="title-main" data-en="Data-Driven Personalized" data-zh="数据驱动的个性化">数据驱动的个性化</span>
+                    <span class="title-accent" data-en="Dental Implant System" data-zh="牙齿种植系统">牙齿种植系统</span>
+                </h1>
+                <p class="hero-subtitle fade-in-up delay-1" data-en="Revolutionizing dental implant procedures through AI-powered precision and personalized care" data-zh="通过AI驱动的精准技术和个性化护理，革新牙齿种植流程">通过AI驱动的精准技术和个性化护理，革新牙齿种植流程</p>
+                <div class="hero-stats fade-in-up delay-2">
+                    <div class="stat-item">
+                        <div class="stat-number" data-en="30M+" data-zh="3000万+" data-target="30000000">3000万+</div>
+                        <div class="stat-label" data-en="Patients in Need" data-zh="需要治疗的患者">需要治疗的患者</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-en="AI-Powered" data-zh="AI驱动">AI驱动</div>
+                        <div class="stat-label" data-en="Precision Technology" data-zh="精准技术">精准技术</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-en="100%" data-zh="100%" data-target="100">100%</div>
+                        <div class="stat-label" data-en="Personalized" data-zh="个性化定制">个性化定制</div>
+                    </div>
+                </div>
+                <div class="hero-cta fade-in-up delay-3">
+                    <a href="#solution" class="btn btn-primary" data-en="Learn More" data-zh="了解更多">了解更多</a>
+                    <a href="#process" class="btn btn-secondary" data-en="View Process" data-zh="查看流程">查看流程</a>
+                </div>
+            </div>
+            <!-- Removed 3D viewer from hero to place in Solution section -->
+        </div>
+        <div class="scroll-indicator">
+            <!-- Desktop: mouse icon -->
+            <div class="mouse" aria-hidden="true"></div>
+            <!-- Mobile: phone frame with down arrow -->
+            <div class="phone-scroll" aria-hidden="true">
+                <div class="phone-frame">
+                    <div class="scroll-dot"></div>
+                </div>
+            </div>
+            <div class="scroll-text" data-en="Scroll to explore" data-zh="滚动探索">滚动探索</div>
+        </div>
+    </section>
+
+    <!-- Challenges Section -->
+    <section id="challenges" class="challenges">
+        <div class="container">
+            <h2 class="section-title" data-en="Traditional Challenges" data-zh="传统挑战">传统挑战</h2>
+            <p class="section-subtitle" data-en="The dental implant industry faces significant bottlenecks" data-zh="牙齿种植行业面临重大瓶颈">牙齿种植行业面临重大瓶颈</p>
+            <div class="challenges-grid">
+                <div class="challenge-card" data-aos="fade-up">
+                    <div class="card-icon"><i class="fas fa-chart-line"></i></div>
+                    <h3 data-en="High Technical Sensitivity" data-zh="技术敏感性高">技术敏感性高</h3>
+                    <p data-en="Traditional methods require extensive expertise and are prone to human error" data-zh="传统方法需要大量专业知识，容易出现人为错误">传统方法需要大量专业知识，容易出现人为错误</p>
+                </div>
+                <div class="challenge-card" data-aos="fade-up" data-delay="100">
+                    <div class="card-icon"><i class="fas fa-exclamation-triangle"></i></div>
+                    <h3 data-en="Large System Errors" data-zh="系统误差性大">系统误差性大</h3>
+                    <p data-en="Inconsistent results due to manual processes and measurement inaccuracies" data-zh="由于手动流程和测量不准确导致结果不一致">由于手动流程和测量不准确导致结果不一致</p>
+                </div>
+                <div class="challenge-card" data-aos="fade-up" data-delay="200">
+                    <div class="card-icon"><i class="fas fa-frown"></i></div>
+                    <h3 data-en="Poor Patient Experience" data-zh="病人体验差">病人体验差</h3>
+                    <p data-en="Uncomfortable procedures and lengthy treatment times" data-zh="不适的治疗过程和冗长的治疗时间">不适的治疗过程和冗长的治疗时间</p>
+                </div>
+                <div class="challenge-card" data-aos="fade-up" data-delay="300">
+                    <div class="card-icon"><i class="fas fa-sync-alt"></i></div>
+                    <h3 data-en="Complex Molding Process" data-zh="取模步骤繁琐">取模步骤繁琐</h3>
+                    <p data-en="Time-consuming and uncomfortable traditional impression methods" data-zh="耗时且不适的传统印模方法">耗时且不适的传统印模方法</p>
+                </div>
+                <div class="challenge-card" data-aos="fade-up" data-delay="400">
+                    <div class="card-icon"><i class="fas fa-times-circle"></i></div>
+                    <h3 data-en="Poor Adaptability" data-zh="适配性差">适配性差</h3>
+                    <p data-en="One-size-fits-all approach fails to meet individual patient needs" data-zh="一刀切的方法无法满足个体患者需求">一刀切的方法无法满足个体患者需求</p>
+                </div>
+                <div class="challenge-card" data-aos="fade-up" data-delay="500">
+                    <div class="card-icon"><i class="fas fa-chart-line" style="transform: rotate(180deg);"></i></div>
+                    <h3 data-en="Low Application Rate" data-zh="应用度低">应用度低</h3>
+                    <p data-en="Limited adoption due to complexity and accessibility issues" data-zh="由于复杂性和可及性问题导致采用率低">由于复杂性和可及性问题导致采用率低</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solution Section -->
+    <section id="solution" class="solution">
+        <div class="container">
+            <div class="solution-content">
+                <div class="solution-text">
+                    <h2 class="section-title" data-en="Our Solution" data-zh="我们的解决方案">我们的解决方案</h2>
+                    <p class="solution-description" data-en="A comprehensive data-driven system integrating multi-modal data collection, AI intelligent modeling, biomechanical analysis, and 3D printing manufacturing" data-zh="整合多模态数据采集、AI智能建模、生物力学分析和3D打印制造的综合性数据驱动系统">整合多模态数据采集、AI智能建模、生物力学分析和3D打印制造的综合性数据驱动系统</p>
+                    <div class="solution-features">
+                        <div class="feature-item">
+                            <div class="feature-icon"><i class="fas fa-bullseye"></i></div>
+                            <div class="feature-content">
+                                <h3 data-en="Higher Precision" data-zh="精度更高">精度更高</h3>
+                                <p data-en="AI-powered algorithms ensure accurate measurements and optimal implant placement" data-zh="AI驱动的算法确保精确测量和最佳种植体放置">AI驱动的算法确保精确测量和最佳种植体放置</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon"><i class="fas fa-brain"></i></div>
+                            <div class="feature-content">
+                                <h3 data-en="Direct & Intelligent" data-zh="更加直接与智能化">更加直接与智能化</h3>
+                                <p data-en="Streamlined digital workflow eliminates unnecessary steps" data-zh="简化的数字化工作流程消除了不必要的步骤">简化的数字化工作流程消除了不必要的步骤</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon"><i class="fas fa-sync"></i></div>
+                            <div class="feature-content">
+                                <h3 data-en="Closed-Loop Optimization" data-zh="闭环优化">闭环优化</h3>
+                                <p data-en="Full-cycle management optimizes the entire implant process" data-zh="全周期管理优化整个种植流程">全周期管理优化整个种植流程</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="solution-visual">
+                    <div class="tooth-visualization">
+                        <div class="model-container" id="modelContainer">
+                            <canvas id="modelCanvas"></canvas>
+                            <div class="model-loading" id="modelLoading">
+                                <div class="loading-spinner"></div>
+                                <span data-en="Loading 3D Model..." data-zh="加载3D模型中...">加载3D模型中...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technology Section -->
+    <section id="technology" class="technology">
+        <div class="container">
+            <h2 class="section-title" data-en="Advanced Technologies" data-zh="先进技术">先进技术</h2>
+            <p class="section-subtitle" data-en="Cutting-edge digital technologies powering our system" data-zh="驱动我们系统的尖端数字技术">驱动我们系统的尖端数字技术</p>
+            <div class="tech-grid">
+                <div class="tech-card" data-aos="flip-left">
+                    <div class="tech-header">
+                        <div class="tech-number">01</div>
+                        <h3 data-en="PGI Technology" data-zh="PGI技术">PGI技术</h3>
+                    </div>
+                    <p data-en="Digital impression technology for edentulous implant restoration" data-zh="用于无牙颌种植修复的数字化印模技术">用于无牙颌种植修复的数字化印模技术</p>
+                </div>
+                <div class="tech-card" data-aos="flip-left" data-delay="100">
+                    <div class="tech-header">
+                        <div class="tech-number">02</div>
+                        <h3 data-en="Video Capture Method" data-zh="视频捕获法">视频捕获法</h3>
+                    </div>
+                    <p data-en="Advanced motion capture for precise oral data collection" data-zh="用于精确口腔数据采集的先进动作捕捉技术">用于精确口腔数据采集的先进动作捕捉技术</p>
+                </div>
+                <div class="tech-card" data-aos="flip-left" data-delay="200">
+                    <div class="tech-header">
+                        <div class="tech-number">03</div>
+                        <h3 data-en="CBCT Imaging" data-zh="CBCT成像">CBCT成像</h3>
+                    </div>
+                    <p data-en="Cone Beam Computed Tomography for detailed 3D oral structure analysis" data-zh="用于详细3D口腔结构分析的锥形束计算机断层扫描">用于详细3D口腔结构分析的锥形束计算机断层扫描</p>
+                </div>
+                <div class="tech-card" data-aos="flip-left" data-delay="300">
+                    <div class="tech-header">
+                        <div class="tech-number">04</div>
+                        <h3 data-en="AI & Machine Learning" data-zh="人工智能与机器学习">人工智能与机器学习</h3>
+                    </div>
+                    <p data-en="Intelligent tooth segmentation and reconstruction algorithms" data-zh="智能牙齿分割和重建算法">智能牙齿分割和重建算法</p>
+                </div>
+                <div class="tech-card" data-aos="flip-left" data-delay="400">
+                    <div class="tech-header">
+                        <div class="tech-number">05</div>
+                        <h3 data-en="Biomechanical Analysis" data-zh="生物力学分析">生物力学分析</h3>
+                    </div>
+                    <p data-en="Advanced simulation for optimal implant positioning and stress distribution" data-zh="用于最佳种植体定位和应力分布的先进仿真">用于最佳种植体定位和应力分布的先进仿真</p>
+                </div>
+                <div class="tech-card" data-aos="flip-left" data-delay="500">
+                    <div class="tech-header">
+                        <div class="tech-number">06</div>
+                        <h3 data-en="3D Printing" data-zh="3D打印">3D打印</h3>
+                    </div>
+                    <p data-en="Precision manufacturing of custom implants and surgical guides" data-zh="定制种植体和手术导板的精密制造">定制种植体和手术导板的精密制造</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process Section -->
+    <section id="process" class="process">
+        <div class="container">
+            <h2 class="section-title" data-en="System Workflow" data-zh="系统工作流程">系统工作流程</h2>
+            <p class="section-subtitle" data-en="Data-Driven → Intelligent Decision → Precise Execution → Closed-Loop Optimization" data-zh="数据驱动 → 智能决策 → 精准执行 → 闭环优化">数据驱动 → 智能决策 → 精准执行 → 闭环优化</p>
+            <div class="process-timeline-wrapper">
+                <div class="process-timeline">
+                    <div class="timeline-line" id="timelineLine"></div>
+                    
+                    <div class="timeline-item" data-step="1">
+                        <div class="timeline-marker">
+                            <div class="timeline-circle-bg"></div>
+                            <span class="timeline-number">01</span>
+                        </div>
+                        <div class="timeline-content">
+                            <div class="timeline-icon"><i class="fas fa-database"></i></div>
+                            <h3 data-en="Data Collection" data-zh="数据采集">数据采集</h3>
+                            <p data-en="Multi-modal data collection using PGI, video capture, and CBCT imaging" data-zh="使用PGI、视频捕获和CBCT成像进行多模态数据采集">使用PGI、视频捕获和CBCT成像进行多模态数据采集</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item" data-step="2">
+                        <div class="timeline-marker">
+                            <div class="timeline-circle-bg"></div>
+                            <span class="timeline-number">02</span>
+                        </div>
+                        <div class="timeline-content">
+                            <div class="timeline-icon"><i class="fas fa-robot"></i></div>
+                            <h3 data-en="AI Modeling" data-zh="AI建模">AI建模</h3>
+                            <p data-en="Intelligent processing and 3D reconstruction using machine learning algorithms" data-zh="使用机器学习算法进行智能处理和3D重建">使用机器学习算法进行智能处理和3D重建</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item" data-step="3">
+                        <div class="timeline-marker">
+                            <div class="timeline-circle-bg"></div>
+                            <span class="timeline-number">03</span>
+                        </div>
+                        <div class="timeline-content">
+                            <div class="timeline-icon"><i class="fas fa-cogs"></i></div>
+                            <h3 data-en="Biomechanical Analysis" data-zh="生物力学分析">生物力学分析</h3>
+                            <p data-en="Simulation and optimization for optimal implant design and placement" data-zh="用于最佳种植体设计和放置的仿真和优化">用于最佳种植体设计和放置的仿真和优化</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item" data-step="4">
+                        <div class="timeline-marker">
+                            <div class="timeline-circle-bg"></div>
+                            <span class="timeline-number">04</span>
+                        </div>
+                        <div class="timeline-content">
+                            <div class="timeline-icon"><i class="fas fa-print"></i></div>
+                            <h3 data-en="3D Manufacturing" data-zh="3D制造">3D制造</h3>
+                            <p data-en="Precision printing of custom implants and surgical guides" data-zh="定制种植体和手术导板的精密打印">定制种植体和手术导板的精密打印</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item" data-step="5">
+                        <div class="timeline-marker">
+                            <div class="timeline-circle-bg"></div>
+                            <span class="timeline-number">05</span>
+                        </div>
+                        <div class="timeline-content">
+                            <div class="timeline-icon"><i class="fas fa-redo"></i></div>
+                            <h3 data-en="Optimization Loop" data-zh="优化循环">优化循环</h3>
+                            <p data-en="Continuous improvement through feedback and data analysis" data-zh="通过反馈和数据分析持续改进">通过反馈和数据分析持续改进</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <img src="assets/icon.png" alt="Dental Implant System Logo" class="footer-logo-img" loading="lazy">
+                    <p data-en="Peking University Second Clinic" data-zh="北京大学第二诊部">北京大学第二诊部</p>
+                    <p class="footer-rights" data-en="Rights: Tsinghua University Dushi College - Data-Driven Personalized Dental Implant Group 1" data-zh="版权所有：清华大学笃实书院-数据驱动的个性化牙齿种植第一组">版权所有：清华大学笃实书院-数据驱动的个性化牙齿种植第一组</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 北京大学第二诊部. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Use reliable jsDelivr CDN with pinned version matching r128 (0.128.0) -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="script.js?v=20251223"></script>
+</body>
+</html>
+
