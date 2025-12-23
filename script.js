@@ -417,13 +417,22 @@ function loadGLBFile(gltfLoader) {
     if (gltfLoader?.setCrossOrigin) {
         gltfLoader.setCrossOrigin('anonymous');
     }
-    // Build absolute URL (handles spaces) to avoid path issues on mobile/CDN
-    const preferredPath = isMobileDevice()
-        ? new URL('assets/3d model/model-mobile.glb', window.location.href).href
-        : new URL('assets/3d model/model.glb', window.location.href).href;
-    const fallbackPath = new URL('assets/3d model/model.glb', window.location.href).href;
-    let glbPath = preferredPath;
-    console.log('Resolved GLB path (preferred):', glbPath);
+        // Build candidate URLs (handles spaces) and prefer compressed/mobile assets on phones
+        const baseHref = window.location.href;
+        const candidatePaths = isMobileDevice()
+                ? [
+                        new URL('assets/3d model/model-mobile.glb', baseHref).href,
+                        new URL('assets/3d model/model-compressed.glb', baseHref).href,
+                        new URL('assets/3d model/model.glb', baseHref).href,
+                        new URL('assets/3d model/model.gltf', baseHref).href,
+                    ]
+                : [
+                        new URL('assets/3d model/model.glb', baseHref).href,
+                        new URL('assets/3d model/model.gltf', baseHref).href,
+                    ];
+        let attemptIndex = 0;
+        let glbPath = candidatePaths[attemptIndex];
+        console.log('Resolved candidate model paths:', candidatePaths);
     
     // Warn if running from file:// which blocks XHR requests used by GLTFLoader
     if (typeof window !== 'undefined' && window.location && window.location.protocol === 'file:') {
@@ -462,7 +471,7 @@ function loadGLBFile(gltfLoader) {
     // Load GLB model
     const tryLoad = (path, isRetry = false) => {
         gltfLoader.load(
-            glbPath,
+            path,
             (gltf) => {
                 clearTimeout(loadTimeout);
                 
@@ -535,16 +544,16 @@ function loadGLBFile(gltfLoader) {
                 console.error('Error loading 3D GLB model:', error);
                 console.error('Error details:', {
                     message: error.message,
-                    path: glbPath,
+                    path,
                     loader: typeof GLTFLoader
                 });
-                // On mobile, first attempt model-mobile.glb then fallback to model.glb
-                if (isMobileDevice() && !isRetry) {
-                    console.warn('Retrying with fallback GLB path...');
-                    glbPath = fallbackPath;
-                    // refresh timeout
+                // Try next candidate path if available
+                attemptIndex += 1;
+                if (attemptIndex < candidatePaths.length) {
+                    const nextPath = candidatePaths[attemptIndex];
+                    console.warn('Retrying with next model path:', nextPath);
                     refreshTimeout();
-                    tryLoad(glbPath, true);
+                    tryLoad(nextPath, true);
                     return;
                 }
                 // Show user-friendly error message
