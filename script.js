@@ -421,12 +421,13 @@ function loadGLBFile(gltfLoader) {
         const baseHref = window.location.href;
         const candidatePaths = isMobileDevice()
                 ? [
-                        new URL('assets/3d model/model-mobile.glb', baseHref).href,
                         new URL('assets/3d model/model-compressed.glb', baseHref).href,
+                        new URL('assets/3d model/model-mobile.glb', baseHref).href,
                         new URL('assets/3d model/model.glb', baseHref).href,
                         new URL('assets/3d model/model.gltf', baseHref).href,
                     ]
                 : [
+                        new URL('assets/3d model/model-compressed.glb', baseHref).href,
                         new URL('assets/3d model/model.glb', baseHref).href,
                         new URL('assets/3d model/model.gltf', baseHref).href,
                     ];
