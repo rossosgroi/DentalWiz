@@ -36,18 +36,18 @@ body {
 }
 
 section {
-    scroll-margin-top: 120px;
+    scroll-margin-top: 180px;
 }
 
 @media (max-width: 968px) {
     section {
-        scroll-margin-top: 150px;
+        scroll-margin-top: 210px;
     }
 }
 
 @media (max-width: 768px) {
     section {
-        scroll-margin-top: 170px;
+        scroll-margin-top: 240px;
     }
 }
 
