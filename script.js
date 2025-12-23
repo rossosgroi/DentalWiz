@@ -308,6 +308,10 @@ const modelCanvas = document.getElementById('modelCanvas');
 const modelLoading = document.getElementById('modelLoading');
 
 function initThreeJS() {
+    // Enable in-memory cache for subsequent asset loads
+    if (THREE && THREE.Cache) {
+        THREE.Cache.enabled = true;
+    }
     // Check if container exists and has valid dimensions
     if (!modelContainer || !modelCanvas) {
         console.error('Model container or canvas not found');
@@ -338,11 +342,12 @@ function initThreeJS() {
     try {
         renderer = new THREE.WebGLRenderer({
             canvas: modelCanvas,
-            antialias: true,
-            alpha: true
+            antialias: !isMobileDevice(), // disable MSAA on mobile for performance
+            alpha: true,
+            powerPreference: 'high-performance'
         });
         renderer.setSize(width, height);
-        const maxDpr = isMobileDevice() ? 1.5 : 2; // lower DPR on mobile to reduce GPU/VRAM pressure
+        const maxDpr = isMobileDevice() ? 1.0 : 2; // cap DPR harder on mobile
         renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, maxDpr));
         console.log('Renderer initialized with size:', { width, height, maxDpr });
     } catch (error) {
@@ -405,8 +410,8 @@ function loadGLBFile(gltfLoader) {
         gltfLoader.setCrossOrigin('anonymous');
     }
     // Build absolute URL (handles spaces) to avoid path issues on mobile/CDN
-    const glbPath = new URL('assets/3d model/model.gltf', window.location.href).href;
-    console.log('Resolved GLTF path:', glbPath);
+    const glbPath = new URL('assets/3d model/model.glb', window.location.href).href;
+    console.log('Resolved GLB path:', glbPath);
     
     // Warn if running from file:// which blocks XHR requests used by GLTFLoader
     if (typeof window !== 'undefined' && window.location && window.location.protocol === 'file:') {
