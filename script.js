@@ -405,8 +405,8 @@ function loadGLBFile(gltfLoader) {
         gltfLoader.setCrossOrigin('anonymous');
     }
     // Build absolute URL (handles spaces) to avoid path issues on mobile/CDN
-    const glbPath = new URL('assets/3d model/model.glb', window.location.href).href;
-    console.log('Resolved GLB path:', glbPath);
+    const glbPath = new URL('assets/3d model/model.gltf', window.location.href).href;
+    console.log('Resolved GLTF path:', glbPath);
     
     // Warn if running from file:// which blocks XHR requests used by GLTFLoader
     if (typeof window !== 'undefined' && window.location && window.location.protocol === 'file:') {
