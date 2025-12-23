@@ -396,6 +396,14 @@ function loadModel() {
         if (GLTFLoader) {
             console.log('Loading GLB model...');
             const gltfLoader = new GLTFLoader();
+            // Attach Draco loader if available (works with uncompressed too)
+            const DRACOLoader = THREE?.DRACOLoader || window?.DRACOLoader;
+            if (DRACOLoader) {
+                const dracoLoader = new DRACOLoader();
+                // Use the CDN decoder path matching three@0.128.0
+                dracoLoader.setDecoderPath('https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/libs/draco/');
+                gltfLoader.setDRACOLoader(dracoLoader);
+            }
             loadGLBFile(gltfLoader);
         } else {
             setTimeout(checkLoader, 100);
@@ -410,8 +418,12 @@ function loadGLBFile(gltfLoader) {
         gltfLoader.setCrossOrigin('anonymous');
     }
     // Build absolute URL (handles spaces) to avoid path issues on mobile/CDN
-    const glbPath = new URL('assets/3d model/model.glb', window.location.href).href;
-    console.log('Resolved GLB path:', glbPath);
+    const preferredPath = isMobileDevice()
+        ? new URL('assets/3d model/model-mobile.glb', window.location.href).href
+        : new URL('assets/3d model/model.glb', window.location.href).href;
+    const fallbackPath = new URL('assets/3d model/model.glb', window.location.href).href;
+    let glbPath = preferredPath;
+    console.log('Resolved GLB path (preferred):', glbPath);
     
     // Warn if running from file:// which blocks XHR requests used by GLTFLoader
     if (typeof window !== 'undefined' && window.location && window.location.protocol === 'file:') {
@@ -427,7 +439,7 @@ function loadGLBFile(gltfLoader) {
     }
     
     // Set a timeout for large files (extended on mobile) and refresh it as progress arrives
-    const timeoutMs = isMobileDevice() ? 70000 : 30000;
+    const timeoutMs = isMobileDevice() ? 120000 : 30000;
     let loadTimeout = setTimeout(() => {
         console.error(`Model loading timeout after ${timeoutMs / 1000}s, using fallback`);
         createFallbackModel();
@@ -448,7 +460,8 @@ function loadGLBFile(gltfLoader) {
     };
     
     // Load GLB model
-    gltfLoader.load(
+    const tryLoad = (path, isRetry = false) => {
+        gltfLoader.load(
             glbPath,
             (gltf) => {
                 clearTimeout(loadTimeout);
@@ -525,6 +538,15 @@ function loadGLBFile(gltfLoader) {
                     path: glbPath,
                     loader: typeof GLTFLoader
                 });
+                // On mobile, first attempt model-mobile.glb then fallback to model.glb
+                if (isMobileDevice() && !isRetry) {
+                    console.warn('Retrying with fallback GLB path...');
+                    glbPath = fallbackPath;
+                    // refresh timeout
+                    refreshTimeout();
+                    tryLoad(glbPath, true);
+                    return;
+                }
                 // Show user-friendly error message
                 if (modelLoading) {
                     const loadingText = modelLoading.querySelector('span');
@@ -541,6 +563,9 @@ function loadGLBFile(gltfLoader) {
                 createFallbackModel();
             }
         );
+    };
+
+    tryLoad(glbPath);
 }
 
 function createFallbackModel() {
